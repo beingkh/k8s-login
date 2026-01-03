@@ -25,6 +25,3 @@ allowedTopologies:
   - key: topology.kubernetes.io/zone
     values:
     - us-east-1a
----
-
-
