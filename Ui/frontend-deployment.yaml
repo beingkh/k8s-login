@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xgoods-ui-signup # <--- Updated Name here
+  name: xgoods-ui-signup
   namespace: xgoods
   labels:
     name: xgoods
     app: signup
     env: development
     ver: "1.0"
-    component: xgoods-ui-signup # Updated Label for consistency
+    component: xgoods-ui-signup
 spec:
   replicas: 2
   selector:
     matchLabels:
-      component: xgoods-ui-signup # Must match template label
+      component: xgoods-ui-signup
   template:
     metadata:
       labels:
@@ -21,17 +21,19 @@ spec:
         app: signup
         env: development
         ver: "1.0"
-        component: xgoods-ui-signup # Updated Label
+        component: xgoods-ui-signup
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
-      - name: xgoods-ui-signup # Container name updated
+      - name: xgoods-ui-signup
         image: xgoods/nginx:1.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
-        - containerPort: 80 # Port 80 (Standard Nginx)
+        - containerPort: 80
         envFrom:
         - configMapRef:
-            name: xgoods-ui-signup-config # Points to new ConfigMap
+            name: xgoods-ui-signup-config
         resources:
           requests:
             cpu: "100m"
@@ -51,5 +53,3 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
----
-
