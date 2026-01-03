@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xgoods-ui-signup
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-ui-signup
+spec:
+  type: ClusterIP
+  selector:
+    component: xgoods-ui-signup
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+---
+
+
