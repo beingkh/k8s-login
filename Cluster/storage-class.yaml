@@ -1,0 +1,28 @@
+apiVersion: V1
+kind: StorageClass
+metadata:
+  name: xgoods.in-storageclass
+  labels:
+    app: xgoods.in
+    env: development
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+  provisioner: ebs.csi.aws.com
+  parameters:
+    type: io2
+    iopsPerGB: "10"
+    encrypted: "true"
+    fsType: xfs
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+mountOptions:
+- discard
+- noatime
+allowedtopologies:
+- matchLabelExpressions:
+  - key: topology.kubernetes.io/zone
+    values:
+    - us-east-1a
+---
+

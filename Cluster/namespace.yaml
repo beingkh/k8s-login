@@ -1,0 +1,10 @@
+apiVersion: V1
+kind: Namespace
+metadata:
+  name: xgoods
+  namespace: xgoods
+  labels:
+    name: xgoods
+---
+
+
