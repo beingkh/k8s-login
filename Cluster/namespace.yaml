@@ -2,8 +2,10 @@ apiVersion: V1
 kind: Namespace
 metadata:
   name: xgoods
-  namespace: xgoods
   labels:
+    app: xgoods-signup
+    env: development
+    version: v1
     name: xgoods
 ---
 
