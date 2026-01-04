@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xgoods-db-signup
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-db-signup
+spec:
+  type: ClusterIP
+  selector:
+    component: xgoods-db-signup
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: 3306
+    protocol: TCP

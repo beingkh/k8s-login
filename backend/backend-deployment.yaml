@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xgoods-backend-signup
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-backend-signup
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: xgoods-backend-signup
+  template:
+    metadata:
+      labels:
+        name: xgoods
+        app: signup
+        env: development
+        ver: "1.0"
+        component: xgoods-backend-signup
+    spec:
+      serviceAccountName: xgoods-backend-signup-sa
+      imagePullSecrets:
+      - name: dockercred
+      containers:
+      - name: xgoods-backend-signup
+        image: xgoods/python-api:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: xgoods-backend-signup-config
+        # We define the DB password here explicitly or via Secret in production
+        env:
+        - name: DB_PASSWORD
+          value: "root"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            # We use a TCP socket check or a simple path if your API has a root route
+            path: /signup
+            port: 5000
+          # Since Python starts slower than Nginx, we give it a bit more initial delay
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /signup
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10

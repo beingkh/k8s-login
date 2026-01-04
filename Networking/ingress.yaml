@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: xgoods-signup-ingress
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-ingress
+  annotations:
+    # Use "nginx" for standard Nginx Ingress, or "alb" if on AWS
+    kubernetes.io/ingress.class: nginx
+    # Rewrites might be needed if your backend expects /signup but receives /api/signup
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: signup.xgoods.in
+    http:
+      paths:
+      # Route 1: API calls go to Backend
+      - path: /signup
+        pathType: Prefix
+        backend:
+          service:
+            name: xgoods-backend-signup
+            port:
+              number: 5000
+      # Route 2: All other traffic goes to Frontend
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: xgoods-ui-signup
+            port:
+              number: 80

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: xgoods-backend-signup
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-backend-signup
+spec:
+  type: ClusterIP
+  selector:
+    component: xgoods-backend-signup
+  ports:
+  - name: http
+    port: 5000 # Service Port
+    targetPort: 5000 # Container Port
+    protocol: TCP

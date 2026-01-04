@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: xgoods-db-signup
+  namespace: xgoods
+  labels:
+    name: xgoods
+    app: signup
+    env: development
+    ver: "1.0"
+    component: xgoods-db-signup
+spec:
+  serviceName: "xgoods-db-signup"
+  replicas: 1
+  selector:
+    matchLabels:
+      component: xgoods-db-signup
+  template:
+    metadata:
+      labels:
+        name: xgoods
+        app: signup
+        env: development
+        ver: "1.0"
+        component: xgoods-db-signup
+    spec:
+      imagePullSecrets:
+      - name: dockercred
+      containers:
+      - name: xgoods-db-signup
+        # Use your custom built image (or mariadb:10.11 if you switched)
+        image: xgoods/mysql:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+          name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: xgoods-db-signup-secret
+              key: mysql-root-password
+        - name: MYSQL_DATABASE
+          value: "userdb"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command: [ "mysqladmin", "ping", "-h", "localhost" ]
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: xgoods-db-signup-pvc
