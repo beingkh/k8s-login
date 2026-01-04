@@ -28,7 +28,6 @@ spec:
       - name: dockercred
       containers:
       - name: xgoods-db-signup
-        # Use your custom built image (or mariadb:10.11 if you switched)
         image: xgoods/mysql:1.0
         imagePullPolicy: Always
         ports:

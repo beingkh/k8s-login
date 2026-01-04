@@ -27,7 +27,7 @@ spec:
       - name: dockercred
       containers:
       - name: xgoods-ui-signup
-        image: xgoods/frontend:1.0
+        image: xgoods/frontend:2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 80
