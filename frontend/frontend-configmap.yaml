@@ -8,4 +8,4 @@ metadata:
     env: development
 data:
   APP_ENV: "development"
-  BACKEND_URL: "http://signup.xgoods.in/signup"
+  BACKEND_URL: "http://52.91.193.61:5000"
