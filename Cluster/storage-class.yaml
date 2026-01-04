@@ -7,20 +7,13 @@ metadata:
     app: signup
     env: development
     ver: "1.0"
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "false"
 provisioner: ebs.csi.aws.com
 parameters:
-  type: io2
-  iopsPerGB: "50"
-  encrypted: "true"
+  type: gp3
   fsType: xfs
 reclaimPolicy: Retain
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
-mountOptions:
-- discard
-- noatime
 allowedTopologies:
 - matchLabelExpressions:
   - key: topology.kubernetes.io/zone
