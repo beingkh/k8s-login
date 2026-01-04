@@ -28,7 +28,7 @@ spec:
       containers:
       - name: xgoods-ui-signup
         image: xgoods/frontend:2.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         envFrom:
