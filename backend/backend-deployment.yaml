@@ -35,7 +35,6 @@ spec:
         envFrom:
         - configMapRef:
             name: xgoods-backend-signup-config
-        # We define the DB password here explicitly or via Secret in production
         env:
         - name: DB_PASSWORD
           value: "root"
@@ -46,17 +45,16 @@ spec:
           limits:
             cpu: "500m"
             memory: "512Mi"
+        # --- FIX APPLIED BELOW ---
         livenessProbe:
-          httpGet:
-            # We use a TCP socket check or a simple path if your API has a root route
-            path: /signup
+          tcpSocket:
+            # Changed from httpGet to tcpSocket
             port: 5000
-          # Since Python starts slower than Nginx, we give it a bit more initial delay
           initialDelaySeconds: 15
           periodSeconds: 20
         readinessProbe:
-          httpGet:
-            path: /signup
+          tcpSocket:
+            # Changed from httpGet to tcpSocket
             port: 5000
           initialDelaySeconds: 10
           periodSeconds: 10
