@@ -24,10 +24,10 @@ spec:
         component: xgoods-ui-signup
     spec:
       imagePullSecrets:
-      - name: regcred
+      - name: dockercred
       containers:
       - name: xgoods-ui-signup
-        image: xgoods/nginx:1.0
+        image: xgoods/frontend:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 80
